@@ -22,7 +22,7 @@ go get github.com/TenforwardAB/slog
 import "github.com/TenforwardAB/slog"
 
 func main() {
-	slog.SetLevelFromString("info") // or "debug", "warn", etc.
+	slog.SetLevel("info") // or "debug", "warn", etc.
 
 	slog.Info("Application started")
 	slog.Warn("This is a warning")
@@ -49,7 +49,7 @@ func main() {
 If you call:
 
 ```go
-slog.SetLevelFromString("banana")
+slog.SetLevel("banana")
 ```
 
 You’ll get:
@@ -61,7 +61,7 @@ invalid log level: banana
 You can handle this:
 
 ```go
-if err := slog.SetLevelFromString(cfg.LogLevel); err != nil {
+if err := slog.SetLevel(cfg.LogLevel); err != nil {
 	log.Printf("invalid log level %q, falling back to info", cfg.LogLevel)
 	slog.SetLevel(slog.LevelInfo)
 }

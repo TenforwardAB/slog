@@ -20,6 +20,19 @@ const (
 	LevelEmerg
 )
 
+const (
+	resetColor  = "\033[0m"
+	red         = "\033[31m"
+	brightRed   = "\033[91m"
+	yellow      = "\033[33m"
+	magenta     = "\033[35m"
+	cyan        = "\033[36m"
+	blue        = "\033[34m"
+	green       = "\033[32m"
+	white       = "\033[37m"
+	brightBlack = "\033[90m"
+)
+
 var levelNames = map[Level]string{
 	LevelDebug:  "DEBUG",
 	LevelInfo:   "INFO",
@@ -29,6 +42,29 @@ var levelNames = map[Level]string{
 	LevelCrit:   "CRIT",
 	LevelAlert:  "ALERT",
 	LevelEmerg:  "EMERG",
+}
+
+func colorForLevel(level Level) string {
+	switch level {
+	case LevelEmerg:
+		return brightRed
+	case LevelAlert:
+		return red
+	case LevelCrit:
+		return magenta
+	case LevelError:
+		return yellow
+	case LevelWarn:
+		return cyan
+	case LevelNotice:
+		return blue
+	case LevelInfo:
+		return green
+	case LevelDebug:
+		return brightBlack
+	default:
+		return resetColor
+	}
 }
 
 type logger struct {
@@ -65,7 +101,8 @@ func logMessage(level Level, msg string, args ...any) {
 		return
 	}
 	prefix := levelNames[level]
-	internal.out.Printf("[%s] %s", prefix, fmt.Sprintf(msg, args...))
+	color := colorForLevel(level)
+	internal.out.Printf("%s[%s] %s%s\n", color, prefix, fmt.Sprintf(msg, args...), resetColor)
 }
 
 func parseLogLevel(level string) (Level, error) {

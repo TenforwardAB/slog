@@ -3,7 +3,7 @@ package main
 import "github.com/TenforwardAB/slog"
 
 func main() {
-	slog.SetLevel(slog.LevelDebug)
+	slog.SetLevel("info") // or "debug", "warn", etc.
 
 	slog.Debug("Debugging enabled")
 	slog.Info("Information message")
